@@ -2,6 +2,7 @@ package ma.youcode.servicesImp;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ma.youcode.entities.User;
@@ -16,6 +17,8 @@ public class UserServicesImp implements UserService {
 	UserRepository userRepository;
 	@Autowired
 	Utils utils;
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public UserDto createUser(UserDto user) {
@@ -26,8 +29,10 @@ public class UserServicesImp implements UserService {
 		User userEntities = new User();
 
 		BeanUtils.copyProperties(user, userEntities);
-		userEntities.setEncryptedPassword("test pw");
+		// Crypting password
+		userEntities.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userEntities.setUserId(utils.genereteUserId(32));
+		// Pirsist in DB
 		User newUser = userRepository.save(userEntities);
 
 		UserDto userDto = new UserDto();
