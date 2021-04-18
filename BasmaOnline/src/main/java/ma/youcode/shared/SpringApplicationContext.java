@@ -9,6 +9,8 @@ public class SpringApplicationContext implements ApplicationContextAware {
 	private static ApplicationContext CONTEXT;
 
 	@Override
+	// Contexte est un mécanisme qui ma ne permettre instancié ou récupère un objet
+	// dans application
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		CONTEXT = applicationContext;
 	}

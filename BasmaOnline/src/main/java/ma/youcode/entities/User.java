@@ -5,20 +5,20 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity(name = "users")
 //For mapping
-@Table  
+@Table
 public class User implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7166826084650146588L;
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String userId;
 
@@ -39,6 +39,10 @@ public class User implements Serializable {
 
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus = false;
+
+	@ManyToOne
+	@JoinColumn(name = "idRole")
+	private Role role;
 
 	public long getId() {
 		return id;
@@ -102,12 +106,6 @@ public class User implements Serializable {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
-	}
-	
-	
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 }

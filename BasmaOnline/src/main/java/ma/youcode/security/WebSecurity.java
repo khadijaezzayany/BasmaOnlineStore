@@ -24,6 +24,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		//Active cors(Pour comminic deux ou plusieur application different port EXP (communication entre aungular et spring boot) )
 		http.cors().and().csrf().disable().authorizeRequests()
 				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll().anyRequest().authenticated()
 				.and().addFilter(new ma.youcode.security.AuthenticationFilter(authenticationManager()))

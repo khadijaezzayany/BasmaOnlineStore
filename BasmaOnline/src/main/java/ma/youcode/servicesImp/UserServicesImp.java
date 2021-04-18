@@ -1,9 +1,13 @@
 package ma.youcode.servicesImp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -46,6 +50,7 @@ public class UserServicesImp implements UserService {
 	}
 
 	@Override
+	// Récupérer User vai son adresse Email
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User userEntities = userRepository.findByEmail(email);
 		if (userEntities == null)
@@ -101,5 +106,52 @@ public class UserServicesImp implements UserService {
 			throw new UsernameNotFoundException(userId);
 		userRepository.delete(userEntities);
 	}
+
+	@Override
+	public List<UserDto> getUsers(int page, int limit) {
+
+		List<UserDto> userDto = new ArrayList<>();
+		Pageable pageableRequest = PageRequest.of(page, limit);
+		Page<User> userPage = userRepository.findAll(pageableRequest);
+		
+		List<User> users = userPage.getContent();
+		for (User userEntity : users) {
+			UserDto user = new UserDto();
+			BeanUtils.copyProperties(userEntity, user);
+			userDto.add(user);
+			
+		}
+		
+		return userDto;
+	}
+
+//	@Override
+//	public List<UserDto> getUsers(int page, int limit) {
+//		List<UserDto> usersDto = new ArrayList<>();
+//		userRepository.findAll(org.springframework.data.domain.Pageable)
+////		Pageable pageableRequest = (Pageable) PageRequest.of(page, limit);
+////		Page<User> userPage = userRepository.findAll(pageableRequest);
+//		for (User userEntity : users) {
+//			UserDto user = new UserDto();
+//			BeanUtils.copyProperties(userEntity, user);
+//			userDto.add(user);
+//
+//		}
+//		return userDto;
+//	}
+
+//	@Override
+//	public List<UserDto> getUsers(int page, int limit, String search, int status) {
+//		List<UserDto> userDto = new ArrayList<>();
+//		Pagea pageableRequest = PageRequest.of(page, limit);
+//		Page<User> userPage = userRepository.findAll(pageableRequest);
+//		for (User userEntity : users) {
+//
+//			UserResponse user = new UserResponse();
+//			BeanUtils.copyProperties(pageableRequest, userPage);
+//		}
+//		userRepository.findAll(pageableRequest);
+//		return userDto;
+//	}
 
 }
