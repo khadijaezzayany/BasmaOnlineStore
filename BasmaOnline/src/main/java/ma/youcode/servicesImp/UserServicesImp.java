@@ -32,7 +32,7 @@ public class UserServicesImp implements UserService {
 	public UserDto createUser(UserDto user) {
 		User checkUser = userRepository.findByEmail(user.getEmail());
 		if (checkUser != null)
-			throw new RuntimeException("User Alrady Exist !!");
+			throw new RuntimeException("User Already Exist !!");
 
 		User userEntities = new User();
 

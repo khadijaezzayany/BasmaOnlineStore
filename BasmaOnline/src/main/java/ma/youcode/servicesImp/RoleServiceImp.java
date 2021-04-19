@@ -1,5 +1,7 @@
 package ma.youcode.servicesImp;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,10 +24,13 @@ public class RoleServiceImp implements RoleService {
 
 	@Override
 	public Role createRole(Role roles) {
-		Role role = new Role();
-		roleRepository.save(role);
+		Role checkRole = roleRepository.findByName(roles.getName());
+		if(checkRole != null) throw new RuntimeException( "Role Already Exist!!");
+		
+//		Role role = new Role();
+		roleRepository.save(roles);
 
-		return role;
+		return roles;
 	}
 
 	@Override
