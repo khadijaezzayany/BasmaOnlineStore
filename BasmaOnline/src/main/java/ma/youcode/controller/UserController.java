@@ -82,6 +82,7 @@ public class UserController {
 		// la coche représeentation
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userRequest, userDto);
+		System.out.println(userRequest.getRoleId());
 
 		// passer information ver le service
 		UserDto createUser = userService.createUser(userDto);

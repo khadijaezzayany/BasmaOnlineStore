@@ -1,6 +1,8 @@
 package ma.youcode.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,12 +42,24 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus = false;
 
+
+
 	@ManyToOne
-	@JoinColumn(name = "idRole")
+	@JoinColumn(name = "idRole" ,nullable = false)
+	
+//	private Set<Role> roles = new HashSet<>();
 	private Role role;
 
 	public long getId() {
 		return id;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public void setId(long id) {

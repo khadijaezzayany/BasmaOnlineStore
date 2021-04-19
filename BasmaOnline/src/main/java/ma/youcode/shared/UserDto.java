@@ -10,6 +10,16 @@ public class UserDto implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private long roleId;
+
+	public long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(long roleId) {
+		this.roleId = roleId;
+	}
+
 	private String password;
 	private String encryptedPassword;
 	private String emailVerificationToken;
@@ -30,7 +40,6 @@ public class UserDto implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
 
 	public String getFirstName() {
 		return firstName;
@@ -88,5 +97,4 @@ public class UserDto implements Serializable {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
 
-	
 }

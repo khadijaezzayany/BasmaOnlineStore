@@ -39,7 +39,7 @@ public class Role implements Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(mappedBy = "role")
-	private List<User> user;
+//	@OneToMany(mappedBy = "role")
+//	private List<User> user;
 
 }

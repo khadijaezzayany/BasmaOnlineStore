@@ -27,10 +27,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		
 		//Active cors(Pour comminic deux ou plusieur application different port EXP (communication entre aungular et spring boot) )
 		http.cors().and().csrf().disable().authorizeRequests()
-				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll().anyRequest().authenticated()
+				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)
+			//	.antMatchers("/users").hasAutority("Admin")
+				.permitAll()
+				.anyRequest()
+				.authenticated()
 				.and().addFilter(new ma.youcode.security.AuthenticationFilter(authenticationManager()))
 				.addFilter(new AutorizationFilter(authenticationManager())).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
 	}
 
 	/// ?????????? not working????????

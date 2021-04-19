@@ -13,7 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import ma.youcode.entities.Role;
 import ma.youcode.entities.User;
+import ma.youcode.repository.RoleRepository;
 import ma.youcode.repository.UserRepository;
 import ma.youcode.services.UserService;
 import ma.youcode.shared.UserDto;
@@ -23,6 +25,8 @@ import ma.youcode.shared.Utils;
 public class UserServicesImp implements UserService {
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	RoleRepository roleRepository;
 	@Autowired
 	Utils utils;
 	@Autowired
@@ -36,10 +40,14 @@ public class UserServicesImp implements UserService {
 
 		User userEntities = new User();
 
+		// recuper role
+		Role role = roleRepository.findByIdRole(user.getRoleId());
 		BeanUtils.copyProperties(user, userEntities);
 		// Crypting password
 		userEntities.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userEntities.setUserId(utils.genereteUserId(32));
+		// Add role to user
+		userEntities.setRole(role);
 		// Pirsist in DB
 		User newUser = userRepository.save(userEntities);
 
@@ -113,45 +121,16 @@ public class UserServicesImp implements UserService {
 		List<UserDto> userDto = new ArrayList<>();
 		Pageable pageableRequest = PageRequest.of(page, limit);
 		Page<User> userPage = userRepository.findAll(pageableRequest);
-		
+
 		List<User> users = userPage.getContent();
 		for (User userEntity : users) {
 			UserDto user = new UserDto();
 			BeanUtils.copyProperties(userEntity, user);
 			userDto.add(user);
-			
+
 		}
-		
+
 		return userDto;
 	}
-
-//	@Override
-//	public List<UserDto> getUsers(int page, int limit) {
-//		List<UserDto> usersDto = new ArrayList<>();
-//		userRepository.findAll(org.springframework.data.domain.Pageable)
-////		Pageable pageableRequest = (Pageable) PageRequest.of(page, limit);
-////		Page<User> userPage = userRepository.findAll(pageableRequest);
-//		for (User userEntity : users) {
-//			UserDto user = new UserDto();
-//			BeanUtils.copyProperties(userEntity, user);
-//			userDto.add(user);
-//
-//		}
-//		return userDto;
-//	}
-
-//	@Override
-//	public List<UserDto> getUsers(int page, int limit, String search, int status) {
-//		List<UserDto> userDto = new ArrayList<>();
-//		Pagea pageableRequest = PageRequest.of(page, limit);
-//		Page<User> userPage = userRepository.findAll(pageableRequest);
-//		for (User userEntity : users) {
-//
-//			UserResponse user = new UserResponse();
-//			BeanUtils.copyProperties(pageableRequest, userPage);
-//		}
-//		userRepository.findAll(pageableRequest);
-//		return userDto;
-//	}
 
 }

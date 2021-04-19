@@ -1,6 +1,6 @@
 package ma.youcode.servicesImp;
 
-import javax.management.RuntimeErrorException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,13 +35,15 @@ public class RoleServiceImp implements RoleService {
 
 	@Override
 	public Role getRole(Role role) {
+		
 		return null;
 	}
 
 	@Override
-	public void deleteRole(Role role) {
-		// TODO Auto-generated method stub
+	public void deleteRole(long idRole) {
 
+		Role entityRole = roleRepository.findByIdRole(idRole);
+		roleRepository.delete(entityRole);
 	}
 
 	@Override
@@ -56,5 +58,11 @@ public class RoleServiceImp implements RoleService {
 //
 //		return role;
 //	}
+
+	@Override
+	public List<Role> getRoles(Role role) {
+		
+		return null;
+	}
 
 }
