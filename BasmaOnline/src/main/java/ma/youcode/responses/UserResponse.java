@@ -5,7 +5,16 @@ public class UserResponse {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String password;
+	//private String password;
+//	private Role role;
+//
+//	public Role getRole() {
+//		return role;
+//	}
+//
+//	public void setRole(Role role) {
+//		this.role = role;
+//	}
 
 	public String getUserId() {
 		return userId;
@@ -39,12 +48,6 @@ public class UserResponse {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
-	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 }

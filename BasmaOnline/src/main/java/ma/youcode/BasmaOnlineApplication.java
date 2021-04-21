@@ -30,4 +30,6 @@ public class BasmaOnlineApplication extends SpringBootServletInitializer {
 	public SpringApplicationContext springApplicationContext() {
 		return new SpringApplicationContext();
 	}
+	
+	
 }

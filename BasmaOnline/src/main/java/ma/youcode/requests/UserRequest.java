@@ -1,11 +1,34 @@
 package ma.youcode.requests;
 
+import java.util.List;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class UserRequest {
+	@NotNull(message = "Ce champ ne doit etre null!")
+	@Size(min=3 ,message = "Ce champ doit avoir au mois 3 Caracteres ")
 	private String firstName;
+	
+	@NotNull(message = "Ce champ ne doit etre null!")
+	@Size(min=3,message = "Ce champ doit avoir au mois 3 Caracteres ")
 	private String lastName;
+	
+	@NotNull(message = "Ce champ ne doit etre null!")
+	@Email(message = "Ce champ doit respecter le formay email !")
 	private String email;
+	
+	@NotNull(message = "Ce champ ne doit etre null!")
+	@Size(min=8, message = "Ce champ ne doit au moins 8 caracteres !")
+	@Size(max=12, message = "Ce champ ne doit au max  12 caracteres !")
+
+	@Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$\r\n"
+			+ "",message = "Ce mot de pass doit avoir des lettres en Maj ,Min et nemero")
 	private String password;
-	private long roleId;
+	
+	private List<AddressRequest> addresses;
 
 	public String getLastName() {
 		return lastName;
@@ -19,13 +42,6 @@ public class UserRequest {
 		this.firstName = firstName;
 	}
 
-	public long getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(long roleId) {
-		this.roleId = roleId;
-	}
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -45,6 +61,14 @@ public class UserRequest {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<AddressRequest> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressRequest> addresses) {
+		this.addresses = addresses;
 	}
 
 }

@@ -25,11 +25,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		//Active cors(Pour comminic deux ou plusieur application different port EXP (communication entre aungular et spring boot) )
+		//Active cors(Pour comminic deux ou plusieur application different port Example: (communication enter angular and spring boot) )
 		http.cors().and().csrf().disable().authorizeRequests()
 				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)
-			//	.antMatchers("/users").hasAutority("Admin")
 				.permitAll()
+				//	.antMatchers("/users").hasAutority("Admin")
+//					.antMatchers("/users").hasAnyAuthority("User")
+//					.antMatchers("/role").hasAuthority("Admin")
+
+
 				.anyRequest()
 				.authenticated()
 				.and().addFilter(new ma.youcode.security.AuthenticationFilter(authenticationManager()))

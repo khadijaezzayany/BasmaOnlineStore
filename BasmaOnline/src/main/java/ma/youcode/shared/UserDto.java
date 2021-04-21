@@ -1,6 +1,7 @@
 package ma.youcode.shared;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserDto implements Serializable {
 
@@ -10,20 +11,11 @@ public class UserDto implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private long roleId;
-
-	public long getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(long roleId) {
-		this.roleId = roleId;
-	}
-
 	private String password;
 	private String encryptedPassword;
 	private String emailVerificationToken;
 	private Boolean emailVerificationStatus = false;
+	private List<AddressDto> addresses;
 
 	public long getId() {
 		return id;
@@ -96,5 +88,15 @@ public class UserDto implements Serializable {
 	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
+
+	public List<AddressDto> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressDto> addresses) {
+		this.addresses = addresses;
+	}
+
+
 
 }

@@ -1,16 +1,15 @@
 package ma.youcode.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity(name = "users")
@@ -42,24 +41,11 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus = false;
 
-
-
-	@ManyToOne
-	@JoinColumn(name = "idRole" ,nullable = false)
-	
-//	private Set<Role> roles = new HashSet<>();
-	private Role role;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // object
+	private List<Address> addresses;
 
 	public long getId() {
 		return id;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
 	}
 
 	public void setId(long id) {
@@ -120,6 +106,14 @@ public class User implements Serializable {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 
 }

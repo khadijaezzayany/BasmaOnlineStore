@@ -3,6 +3,9 @@ package ma.youcode.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ma.youcode.exeption.UserExeption;
 import ma.youcode.requests.UserRequest;
+import ma.youcode.responses.ErrorMessages;
 import ma.youcode.responses.UserResponse;
 import ma.youcode.services.UserService;
 import ma.youcode.shared.UserDto;
+
 
 @RestController
 @RequestMapping("/users")
@@ -29,6 +35,11 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	
+	
+	
+	
+	
 	
 	
 	
@@ -54,9 +65,10 @@ public class UserController {
 	
 	
 	
+	
 	@GetMapping(produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public List<UserResponse> getAllUsers(@RequestParam(value = "page") int page,
-			@RequestParam(value = "limit") int limit) {
+	public List<UserResponse> getAllUsers(@RequestParam(value = "page" , defaultValue = "1") int page,
+			@RequestParam(value = "limit",defaultValue = "5") int limit) {
 		List<UserResponse> usersResponse = new ArrayList<>();
 		List<UserDto> users = userService.getUsers(page, limit);
 		for (UserDto userDto : users) {
@@ -74,25 +86,28 @@ public class UserController {
 	
 	
 	
-	
 	@PostMapping(produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE }, consumes = {
 			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+	
+	public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest userRequest) throws Exception {
 
+		if(userRequest.getFirstName().isEmpty()) throw new UserExeption(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		// la coche représeentation
-		UserDto userDto = new UserDto();
-		BeanUtils.copyProperties(userRequest, userDto);
-		System.out.println(userRequest.getRoleId());
+		ModelMapper modelMapper = new ModelMapper();
+		UserDto userDto =  modelMapper.map(userRequest, UserDto.class);
+				
 
 		// passer information ver le service
 		UserDto createUser = userService.createUser(userDto);
 
+		
 		// create reponse
-		UserResponse userResponse = new UserResponse();
-		BeanUtils.copyProperties(createUser, userResponse);
+		UserResponse userResponse = modelMapper.map(createUser, UserResponse.class);
 		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.CREATED);
 	}
 
+	
+	
 	
 	
 	
@@ -120,6 +135,12 @@ public class UserController {
 		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.ACCEPTED);
 	}
 
+	
+	
+	
+	
+	
+	
 	
 	
 	
