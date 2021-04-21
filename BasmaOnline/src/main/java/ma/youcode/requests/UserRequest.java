@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import ma.youcode.entities.Address;
+
 public class UserRequest {
 	@NotNull(message = "Ce champ ne doit etre null!")
 	@Size(min=3 ,message = "Ce champ doit avoir au mois 3 Caracteres ")
@@ -17,8 +19,10 @@ public class UserRequest {
 	private String lastName;
 	
 	@NotNull(message = "Ce champ ne doit etre null!")
-	@Email(message = "Ce champ doit respecter le formay email !")
+	@Email(message = "Ce champ doit respecter le f;ormay email !")
 	private String email;
+	
+	private Boolean admin;
 	
 	@NotNull(message = "Ce champ ne doit etre null!")
 	@Size(min=8, message = "Ce champ ne doit au moins 8 caracteres !")
@@ -27,6 +31,7 @@ public class UserRequest {
 	@Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$\r\n"
 			+ "",message = "Ce mot de pass doit avoir des lettres en Maj ,Min et nemero")
 	private String password;
+	
 	
 	private List<AddressRequest> addresses;
 
@@ -69,6 +74,14 @@ public class UserRequest {
 
 	public void setAddresses(List<AddressRequest> addresses) {
 		this.addresses = addresses;
+	}
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 
 }

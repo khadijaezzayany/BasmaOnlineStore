@@ -51,21 +51,25 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
 		String userName = ((User) auth.getPrincipal()).getUsername();
-		// Generate the Token
-		String token = Jwts.builder().setSubject(userName)
-				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPRIRATION_TIME))
-				.signWith(SignatureAlgorithm.HS256, SecurityConstants.TOKEN_SECRET).compact();
+		
 		// Contexte est un mécanisme qui ma ne permettre instancié ou récupère un objet
 		// dans application
 		UserService userService = (UserService) SpringApplicationContext.getBean("userServicesImp");
 		UserDto userDto = userService.getUser(userName);
+		// Generate the Token
+		String token = Jwts.builder().setSubject(userName)
+				.claim("id", userDto.getUserId())
+				.claim("name", userDto.getFirstName()+" "+ userDto.getLastName())
+				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPRIRATION_TIME))
+				.signWith(SignatureAlgorithm.HS256, SecurityConstants.TOKEN_SECRET).compact();
+	 
 		// Send Token to Header
 		res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
 		// Send UserId to Header
 		res.addHeader("user_id", userDto.getUserId());
 
-		
-		//        res.getWriter().write("{\"token\": \"" + token + "\", \"id\": \""+ userDto.getUserId() + "\"}");
+		//send token and id to body
+		res.getWriter().write("{\"token\": \"" + token + "\", \"id\": \"" + userDto.getUserId() + "\"}");
 
 		// res.getWriter().write("{\"token\": \"" + token + "\", \"id\": \""+
 		// userDto.getUserId() + "\"}");

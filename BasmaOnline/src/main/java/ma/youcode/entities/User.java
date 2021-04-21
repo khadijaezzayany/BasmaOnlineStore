@@ -40,6 +40,9 @@ public class User implements Serializable {
 
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus = false;
+	
+	@Column(nullable = false)
+	private Boolean admin;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // object
 	private List<Address> addresses;
@@ -114,6 +117,14 @@ public class User implements Serializable {
 
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
+	}
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 
 }

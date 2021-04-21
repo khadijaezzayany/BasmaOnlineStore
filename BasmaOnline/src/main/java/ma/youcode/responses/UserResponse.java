@@ -1,11 +1,15 @@
 package ma.youcode.responses;
 
+import java.util.List;
+
 public class UserResponse {
 	private String userId;
 	private String firstName;
 	private String lastName;
 	private String email;
-	//private String password;
+	private Boolean admin;
+	private List<AddressResponse> addresses;
+	// private String password;
 //	private Role role;
 //
 //	public Role getRole() {
@@ -40,12 +44,28 @@ public class UserResponse {
 		this.lastName = lastName;
 	}
 
+	public List<AddressResponse> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressResponse> addresses) {
+		this.addresses = addresses;
+	}
+
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 
 
